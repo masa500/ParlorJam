@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2597598311950823453
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468861111126860450, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7040629323739775245, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_Name
+      value: GhostUFO
+      objectReference: {fileID: 0}
+    - target: {fileID: 8405115006498073888, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2084467800, guid: 4cd8168a1731dff4786224957e2bd03a, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7040629323739775245, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4007381551294897748}
+  m_SourcePrefab: {fileID: 100100000, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+--- !u!212 &3943460347579616513 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1348117443639901468, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+  m_PrefabInstance: {fileID: 2597598311950823453}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4087474258040319879 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2068601147050975130, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+  m_PrefabInstance: {fileID: 2597598311950823453}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5024278820833653008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7040629323739775245, guid: 5dcf39843c4055e5abd67a73ad5226f6, type: 3}
+  m_PrefabInstance: {fileID: 2597598311950823453}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4007381551294897748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5024278820833653008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c540eb919cf3036b86be6518728453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5
+  _speed: 0
+  _baseAnim: {fileID: 7400000, guid: 6e010a03b669cdc0ea002bd547de5b5b, type: 2}
+  _animIdle: {fileID: 7400000, guid: b48790a79bd9efdd6a9b7ed28476c689, type: 2}
+  _plusOneSprite: {fileID: 3943460347579616513}
+  _caughtSprite: {fileID: 4087474258040319879}
+  _caughtSound: {fileID: 8300000, guid: 2a2712c2d223bbc8b979d60639705d28, type: 3}
+  _soundPrefab: {fileID: 9022185834024895887, guid: 6aef324414a3a0971bb096a10736c61a, type: 3}
