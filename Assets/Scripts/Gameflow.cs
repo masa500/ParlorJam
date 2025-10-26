@@ -84,6 +84,15 @@ public class Gameflow: MonoBehaviour
 
     void Start()
     {
+        mainMenuUI.SetActive(true);
+        tutorialUI.SetActive(false);
+        gameplayUI.SetActive(false);
+        tryAgainUI.SetActive(false);
+        victoryUI.SetActive(false);
+
+        transitionFadeObject.gameObject.SetActive(true);
+        transitionFadeObject.sizeDelta = new Vector2(1200f, 800f);
+
         StartState(_gameConfig.GetInitialState());
     }
 
