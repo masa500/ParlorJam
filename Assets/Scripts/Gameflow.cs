@@ -79,7 +79,7 @@ public class Gameflow: MonoBehaviour
 
         //Try Again State
         _gameConfig.AddState(GameConfiguration.TryAgainState,
-            new TryAgainState(transitionFadeObject, transitionFadeInDuration, tryButton, tryAgainUI, _round));
+            new TryAgainState(transitionFadeObject, transitionFadeInDuration, tryButton, tryAgainUI, _round, roundCounter));
 
         //Victory State
         _gameConfig.AddState(GameConfiguration.VictoryState,
