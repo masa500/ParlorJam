@@ -1,8 +1,7 @@
 using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Events;
 
 public abstract class Ghost : MonoBehaviour
 {
@@ -95,14 +94,20 @@ public abstract class Ghost : MonoBehaviour
         _speed = 0f;
     }
 
-    public async Task CountAvailableGhosts()
+    public async UniTask CountAvailableGhosts()
     {
         if (!isCaught) return;
 
+        if (transform.localScale.x == -1f)
+            _plusOneSprite.transform.localScale = new Vector3(-1f,1f,1f);
+
         _plusOneSprite.color = new Color(1f, 1f, 1f, 1f);
 
-        _plusOneSprite.transform.DOLocalMoveY(0.5f, 1f);
+        if(this.gameObject.transform.position.y < 0f)
+            _plusOneSprite.transform.DOLocalMoveY(0.5f, 1f);
+        else
+            _plusOneSprite.transform.DOLocalMoveY(-0.5f, 1f);
 
-        await Task.Delay(TimeSpan.FromSeconds(1f));
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
     }
 }

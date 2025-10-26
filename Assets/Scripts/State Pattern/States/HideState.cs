@@ -11,20 +11,24 @@ public class HideState : IState
     private readonly float _blackOutDuration;
     private readonly SpriteRenderer _fadeMask;
     private readonly GameObject _ghostSpawner;
+    private readonly InputReader _controls;
     private List<Ghost> _ghosts;
 
-    public HideState(float idleDuration, float hideDuration, float blackOutDuration, SpriteRenderer fadeMask, GameObject ghostSpawner)
+    public HideState(float idleDuration, float hideDuration, float blackOutDuration, SpriteRenderer fadeMask, GameObject ghostSpawner, InputReader controls)
     {
         _idleDuration = idleDuration;
         _hideDuration = hideDuration;
         _blackOutDuration = blackOutDuration;
         _fadeMask = fadeMask;
         _ghostSpawner = ghostSpawner;
+        _controls = controls;
     }
 
     public async UniTask<GameStateResult> DoAction(object data)
     {
         _ghosts = new List<Ghost>();
+
+        _controls.DisableControls();
 
         foreach (Transform child in _ghostSpawner.transform)
         {

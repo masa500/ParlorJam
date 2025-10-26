@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,12 +7,14 @@ public class Gameflow: MonoBehaviour
     [Header("Scripts")]
     [SerializeField] private TutorialLogic tutorialLogic;
     [SerializeField] private GhostSpawner ghostSpawner;
+    [SerializeField] private InputReader controls;
     [Header("GameObjects")]
     [SerializeField] private RectTransform transitionFadeObject;
     [SerializeField] private SpriteRenderer blackOutMask;
     [SerializeField] private SpriteMask lineMask;
     [SerializeField] private GameObject linesContainer;
     [SerializeField] private GameObject seekCursor;
+    [SerializeField] private TextMeshProUGUI roundCounter;
     [Header("Panels")]
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject tutorialUI;
@@ -36,6 +39,7 @@ public class Gameflow: MonoBehaviour
     [SerializeField] private GameObject soundPrefab;
     [SerializeField] private AudioClip winSound;
     [SerializeField] private AudioClip loseSound;
+    [SerializeField] private AudioClip initSound;
     private GameConfiguration _gameConfig;
     private Round _round;
 
@@ -59,11 +63,11 @@ public class Gameflow: MonoBehaviour
 
         //Hide State
         _gameConfig.AddState(GameConfiguration.HideState,
-            new HideState(waitHideDuration, hideDuration, blackOutDuration, blackOutMask, ghostSpawner.gameObject));
+            new HideState(waitHideDuration, hideDuration, blackOutDuration, blackOutMask, ghostSpawner.gameObject, controls));
 
         //Gameplay
         _gameConfig.AddState(GameConfiguration.GameplayState,
-            new GameplayState(gameplayDuration, ghostSpawner.gameObject, _round, seekCursor));
+            new GameplayState(gameplayDuration, ghostSpawner.gameObject, _round, seekCursor, controls, soundPrefab, initSound, roundCounter));
 
         //Win State
         _gameConfig.AddState(GameConfiguration.WinState,

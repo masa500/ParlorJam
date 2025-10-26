@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,15 +13,17 @@ public class TryAgainState : IState
     private bool _buttonPressed = false;
     private readonly Button _tryBtn;
     private readonly GameObject _tryAgainUI;
+    private readonly TextMeshProUGUI _textRound;
     private readonly Round _round;
 
-    public TryAgainState(RectTransform fadeObject, float fadeDuration, Button tryBtn, GameObject tryAgainUI, Round round)
+    public TryAgainState(RectTransform fadeObject, float fadeDuration, Button tryBtn, GameObject tryAgainUI, Round round, TextMeshProUGUI textRound)
     {
         _fadeObject = fadeObject;
         _fadeDuration = fadeDuration;
         _tryBtn = tryBtn;
         _tryAgainUI = tryAgainUI;
         _round = round;
+        _textRound = textRound;
         _tryBtn.onClick.AddListener(HandleButtonPressed);
     }
 
@@ -53,6 +56,8 @@ public class TryAgainState : IState
         _buttonPressed = false;
 
         _round.current = 1;
+
+        _textRound.text = "1/15";
 
         return new GameStateResult(GameConfiguration.SpawnerState, data);
     }

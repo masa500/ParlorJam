@@ -20,12 +20,22 @@ public class InputReader : ScriptableObject, GameInputs.IGameplayActions
             _gameInput.Gameplay.SetCallbacks(this);
         }
 
-        _gameInput.Gameplay.Enable();
+        EnableControls();
     }
-    
+
     private void OnDisable()
     {
+        DisableControls();
+    }
+
+    public void DisableControls()
+    {
         _gameInput.Gameplay.Disable();
+    }
+
+    public void EnableControls()
+    {
+        _gameInput.Gameplay.Enable();
     }
 
     public void OnClick(InputAction.CallbackContext context)
