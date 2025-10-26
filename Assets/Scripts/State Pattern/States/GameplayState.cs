@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameplayState : IState
@@ -21,7 +20,7 @@ public class GameplayState : IState
         _seekCursor = seekCursor;
     }
 
-    public async Task<GameStateResult> DoAction(object data)
+    public async UniTask<GameStateResult> DoAction(object data)
     {
         _ghosts = new List<Ghost>();
 
@@ -34,7 +33,7 @@ public class GameplayState : IState
             _ghosts.Add(_ghost);
         }
 
-        await Task.Delay(TimeSpan.FromSeconds(_gameplayDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_gameplayDuration));
 
         foreach (Ghost ghost in _ghosts)
         {

@@ -1,8 +1,5 @@
-using System;
-using System.Threading.Tasks;
-using DG.Tweening;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class VictoryState : IState
 {
@@ -15,13 +12,13 @@ public class VictoryState : IState
         transitionFadeObject = _transitionFadeObject;
     }
     
-    public async Task<GameStateResult> DoAction(object data)
+    public async UniTask<GameStateResult> DoAction(object data)
     {
         _victoryUI.SetActive(true);
 
         _transitionFadeObject.sizeDelta = new Vector2(1200f,800f);
 
-        await Task.Yield();
+        await UniTask.Yield();
 
         return new GameStateResult(GameConfiguration.VictoryState, data);
     }

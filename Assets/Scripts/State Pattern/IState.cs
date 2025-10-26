@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public interface IState
 {
-    Task<GameStateResult> DoAction(object data);
+    UniTask<GameStateResult> DoAction(object data);
 }

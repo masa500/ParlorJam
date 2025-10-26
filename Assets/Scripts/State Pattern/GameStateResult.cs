@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GameStateResult
 {
     public readonly int NextStateId;

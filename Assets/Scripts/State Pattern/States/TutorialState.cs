@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,18 +27,18 @@ public class TutorialState: IState
         _buttonPressed = true;
     }
 
-    public async Task<GameStateResult> DoAction(object data)
+    public async UniTask<GameStateResult> DoAction(object data)
     {
         while (!_buttonPressed)
         {
-            await Task.Yield();
+            await UniTask.Yield();
         }
 
         _tutorialButton.interactable = false;
 
         _fadeObject.DOSizeDelta(new Vector2(1f, 1f), _fadeDuration).SetEase(Ease.InOutSine);
 
-        await Task.Delay(TimeSpan.FromSeconds(_fadeDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeDuration));
 
         _fadeObject.gameObject.SetActive(false);
 

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ public class HideState : IState
         _ghostSpawner = ghostSpawner;
     }
 
-    public async Task<GameStateResult> DoAction(object data)
+    public async UniTask<GameStateResult> DoAction(object data)
     {
         _ghosts = new List<Ghost>();
 
@@ -34,7 +34,7 @@ public class HideState : IState
             }
         }
 
-        await Task.Delay(TimeSpan.FromSeconds(_idleDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_idleDuration));
 
         foreach (var ghost in _ghosts)
         {
@@ -43,9 +43,9 @@ public class HideState : IState
 
         DOTween.To(() => _fadeMask.color, x => _fadeMask.color = x, new Color(0f, 0f, 0f, 1f), _hideDuration).SetEase(Ease.InOutSine);
 
-        await Task.Delay(TimeSpan.FromSeconds(_hideDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_hideDuration));
 
-        await Task.Delay(TimeSpan.FromSeconds(_blackOutDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_blackOutDuration));
 
         foreach (var ghost in _ghosts)
         {

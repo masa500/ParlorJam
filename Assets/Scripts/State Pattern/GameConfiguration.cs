@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
 using UnityEngine.Events;
 
 public class GameConfiguration
@@ -38,7 +37,7 @@ public class GameConfiguration
 
     public IState GetState(int stateId)
     {
-        Assert.IsTrue(_states.ContainsKey(stateId), $"State with id {stateId} do not exit");
+        //Assert.IsTrue(_states.ContainsKey(stateId), $"State with id {stateId} do not exit");
         return _states[stateId];
     }
 

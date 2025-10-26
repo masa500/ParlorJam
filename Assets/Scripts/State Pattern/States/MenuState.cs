@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,11 +34,11 @@ public class MenuState: IState
         _buttonPressed = true;
     }
 
-    public async Task<GameStateResult> DoAction(object data)
+    public async UniTask<GameStateResult> DoAction(object data)
     {
         while (!_buttonPressed)
         {
-            await Task.Yield();
+            await UniTask.Yield();
         }
 
         _playButton.interactable = false;
@@ -47,7 +47,7 @@ public class MenuState: IState
 
         _fadeObject.DOSizeDelta(new Vector2(1f, 1f), _fadeDuration).SetEase(Ease.InOutSine);
 
-        await Task.Delay(TimeSpan.FromSeconds(_fadeDuration + 0.5f));
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeDuration + 0.5f));
 
         _menuUI.SetActive(false);
 
@@ -55,7 +55,7 @@ public class MenuState: IState
 
         _fadeObject.DOSizeDelta(new Vector2(1200f, 800f), _fadeDuration).SetEase(Ease.InOutSine);
 
-        await Task.Delay(TimeSpan.FromSeconds(_fadeDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeDuration));
 
         _nextButton.interactable = true;
 

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -29,7 +29,7 @@ public class WinState : IState
         _winSound = winSound;
     }
 
-    public async Task<GameStateResult> DoAction(object data)
+    public async UniTask<GameStateResult> DoAction(object data)
     {
         _ghosts = new List<Ghost>();
         foreach (Transform child in _ghostSpawner.transform)
@@ -42,15 +42,15 @@ public class WinState : IState
 
         DOTween.To(() => _fadeMask.color, x => _fadeMask.color = x, new Color(0f, 0f, 0f, 0f), _fadeMaskDuration).SetEase(Ease.InOutSine);
 
-        await Task.Delay(TimeSpan.FromSeconds(_fadeMaskDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeMaskDuration));
 
-        await Task.Delay(TimeSpan.FromSeconds(_restDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_restDuration));
 
         foreach (var ghost in _ghosts)
         {
             await ghost.CountAvailableGhosts();
 
-            await Task.Delay(TimeSpan.FromSeconds(_restDuration));
+            await UniTask.Delay(TimeSpan.FromSeconds(_restDuration));
         } 
 
         var soundPre = GameObject.Instantiate(_soundPrefab);
@@ -59,11 +59,11 @@ public class WinState : IState
 
         soundPre.GetComponent<AudioSource>().Play();
 
-        await Task.Delay(TimeSpan.FromSeconds(_restDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_restDuration));
 
         _fadeObject.DOSizeDelta(new Vector2(1f, 1f), _fadeDuration).SetEase(Ease.InOutSine);
 
-        await Task.Delay(TimeSpan.FromSeconds(_fadeDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_fadeDuration));
 
         _fadeObject.gameObject.SetActive(false);
         

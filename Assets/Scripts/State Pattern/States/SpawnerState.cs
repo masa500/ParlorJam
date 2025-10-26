@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -26,7 +26,7 @@ public class SpawnerState : IState
         _lineMask = lineMask;
     }
 
-    public async Task<GameStateResult> DoAction(object data)
+    public async UniTask<GameStateResult> DoAction(object data)
     {
 
         if(_round.current >15)
@@ -66,7 +66,7 @@ public class SpawnerState : IState
         _fadeObject.gameObject.SetActive(true);
         _fadeObject.DOSizeDelta(new Vector2(1200f, 800f), _animDuration).SetEase(Ease.InOutSine);
 
-        await Task.Delay(TimeSpan.FromSeconds(_animDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_animDuration));
 
         return new GameStateResult(GameConfiguration.HideState, data);
     }
