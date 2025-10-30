@@ -42,7 +42,6 @@ public class GhostSpawner : MonoBehaviour
                 ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
                 ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
                 ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
                 break;
             case 8:
                 ghosts.Add(_ghostFactory.Create((int)GhostType.Slow));
@@ -78,7 +77,6 @@ public class GhostSpawner : MonoBehaviour
                 ghosts.Add(_ghostFactory.Create((int)GhostType.Normal));
                 break;
             case 14:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
                 ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
                 ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
                 ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));

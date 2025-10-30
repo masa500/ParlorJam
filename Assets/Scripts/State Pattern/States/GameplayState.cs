@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -14,12 +15,14 @@ public class GameplayState : IState
     private readonly InputReader _controls;
     private readonly GameObject _soundPrefab;
     private readonly AudioClip _initSound;
+    private readonly AudioClip _clockSound;
     private readonly TextMeshProUGUI _textRound;
+    private readonly TextMeshProUGUI _textTimer;
     private int ghostsCaught = 0;
     private List<Ghost> _ghosts;
 
     public GameplayState(float gameplayDuration, GameObject ghostSpawner, Round round, GameObject seekCursor, InputReader controls,
-        GameObject soundPrefab, AudioClip initSound, TextMeshProUGUI textRound)
+        GameObject soundPrefab, AudioClip initSound, TextMeshProUGUI textRound, TextMeshProUGUI textTimer, AudioClip clockSound)
     {
         _gameplayDuration = gameplayDuration;
         _ghostSpawner = ghostSpawner;
@@ -29,10 +32,13 @@ public class GameplayState : IState
         _soundPrefab = soundPrefab;
         _initSound = initSound;
         _textRound = textRound;
+        _textTimer = textTimer;
+        _clockSound = clockSound;
     }
 
     public async UniTask<GameStateResult> DoAction(object data)
     {
+
         _ghosts = new List<Ghost>();
 
         _controls.EnableControls();
@@ -44,6 +50,28 @@ public class GameplayState : IState
         soundPre.GetComponent<AudioSource>().clip = _initSound;
 
         soundPre.GetComponent<AudioSource>().Play();
+
+        var timerValue = _gameplayDuration;
+
+        var lastSecondPlayed = (int)timerValue + 1;
+
+        DOTween.To(() => timerValue, x => timerValue = x, 0, _gameplayDuration).SetEase(Ease.Linear)
+            .OnUpdate(() => {
+                
+                int seconds = (int)Mathf.Ceil(timerValue);
+                _textTimer.text = seconds.ToString();
+
+                if (seconds < lastSecondPlayed)
+                {
+                    var soundPre = GameObject.Instantiate(_soundPrefab);
+
+                    soundPre.GetComponent<AudioSource>().clip = _clockSound;
+
+                    soundPre.GetComponent<AudioSource>().Play();
+
+                    lastSecondPlayed = seconds;
+                }
+            });
 
         foreach (Transform child in _ghostSpawner.transform)
         {

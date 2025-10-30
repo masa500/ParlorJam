@@ -15,6 +15,7 @@ public class Gameflow: MonoBehaviour
     [SerializeField] private GameObject linesContainer;
     [SerializeField] private GameObject seekCursor;
     [SerializeField] private TextMeshProUGUI roundCounter;
+    [SerializeField] private TextMeshProUGUI timerText;
     [Header("Panels")]
     [SerializeField] private GameObject mainMenuUI;
     [SerializeField] private GameObject tutorialUI;
@@ -40,6 +41,7 @@ public class Gameflow: MonoBehaviour
     [SerializeField] private AudioClip winSound;
     [SerializeField] private AudioClip loseSound;
     [SerializeField] private AudioClip initSound;
+    [SerializeField] private AudioClip clockSound;
     private GameConfiguration _gameConfig;
     private Round _round;
 
@@ -63,11 +65,11 @@ public class Gameflow: MonoBehaviour
 
         //Hide State
         _gameConfig.AddState(GameConfiguration.HideState,
-            new HideState(waitHideDuration, hideDuration, blackOutDuration, blackOutMask, ghostSpawner.gameObject, controls));
+            new HideState(waitHideDuration, hideDuration, blackOutDuration, blackOutMask, ghostSpawner.gameObject, controls, timerText, gameplayDuration));
 
         //Gameplay
         _gameConfig.AddState(GameConfiguration.GameplayState,
-            new GameplayState(gameplayDuration, ghostSpawner.gameObject, _round, seekCursor, controls, soundPrefab, initSound, roundCounter));
+            new GameplayState(gameplayDuration, ghostSpawner.gameObject, _round, seekCursor, controls, soundPrefab, initSound, roundCounter, timerText, clockSound));
 
         //Win State
         _gameConfig.AddState(GameConfiguration.WinState,

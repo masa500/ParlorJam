@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class HideState : IState
@@ -12,9 +13,12 @@ public class HideState : IState
     private readonly SpriteRenderer _fadeMask;
     private readonly GameObject _ghostSpawner;
     private readonly InputReader _controls;
+    private readonly float _gameplayDuration;
+    private readonly TextMeshProUGUI _textTimer;
     private List<Ghost> _ghosts;
 
-    public HideState(float idleDuration, float hideDuration, float blackOutDuration, SpriteRenderer fadeMask, GameObject ghostSpawner, InputReader controls)
+    public HideState(float idleDuration, float hideDuration, float blackOutDuration, SpriteRenderer fadeMask, GameObject ghostSpawner, InputReader controls,
+        TextMeshProUGUI textTimer, float gameplayDuration)
     {
         _idleDuration = idleDuration;
         _hideDuration = hideDuration;
@@ -22,10 +26,15 @@ public class HideState : IState
         _fadeMask = fadeMask;
         _ghostSpawner = ghostSpawner;
         _controls = controls;
+        _textTimer = textTimer;
+        _gameplayDuration = gameplayDuration;
     }
 
     public async UniTask<GameStateResult> DoAction(object data)
     {
+
+        _textTimer.text = _gameplayDuration.ToString();
+
         _ghosts = new List<Ghost>();
 
         _controls.DisableControls();
