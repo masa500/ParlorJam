@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class SpawnerState : IState
@@ -13,8 +14,11 @@ public class SpawnerState : IState
     private readonly GameObject _tutorialUI;
     private readonly GameObject _gameplayUI;
     private readonly Round _round;
+    private readonly TextMeshProUGUI _textRound;
     private readonly GameObject _linesContainer;
-    public SpawnerState(float animDuration, RectTransform fadeObject, GhostSpawner ghostSpawner, Round round, GameObject tutorialUI, GameObject gameplayUI, SpriteMask lineMask, GameObject linesContainer)
+    private readonly GameplayMode _gameplayMode;
+    public SpawnerState(float animDuration, RectTransform fadeObject, GhostSpawner ghostSpawner, Round round, GameObject tutorialUI,
+        GameObject gameplayUI, SpriteMask lineMask, GameObject linesContainer, GameplayMode gameplayMode, TextMeshProUGUI textRound)
     {
         _animDuration = animDuration;
         _fadeObject = fadeObject;
@@ -24,6 +28,8 @@ public class SpawnerState : IState
         _tutorialUI = tutorialUI;
         _gameplayUI = gameplayUI;
         _lineMask = lineMask;
+        _gameplayMode = gameplayMode;
+        _textRound = textRound;
     }
 
     public async UniTask<GameStateResult> DoAction(object data)
@@ -58,7 +64,7 @@ public class SpawnerState : IState
             GameObject.Destroy(child);
         }
 
-        _ghostSpawner.SpawnGhost(_round.current);
+        _ghostSpawner.SpawnGhost(_round.current, _gameplayMode._easyMode);
 
         _tutorialUI.SetActive(false);
         _gameplayUI.SetActive(true);
@@ -67,6 +73,8 @@ public class SpawnerState : IState
         _fadeObject.DOSizeDelta(new Vector2(1200f, 800f), _animDuration).SetEase(Ease.InOutSine);
 
         await UniTask.Delay(TimeSpan.FromSeconds(_animDuration));
+        
+        _textRound.text = _round.current + "/15";
 
         return new GameStateResult(GameConfiguration.HideState, data);
     }

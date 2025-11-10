@@ -7,31 +7,45 @@ using UnityEngine.UI;
 public class MenuState: IState
 {
     private readonly RectTransform _fadeObject;
-    private readonly Button _playButton;
+    private readonly Button _easyModeButton;
+    private readonly Button _hardModeButton;
     private readonly Button _creditsButton;
     private readonly Button _nextButton;
     private readonly float _fadeDuration;
     private readonly GameObject _menuUI;
     private readonly GameObject _tutorialUI;
+    private readonly GameplayMode _gameplayMode;
     private bool _buttonPressed = false;
 
-    public MenuState(GameObject menuUI, GameObject tutorialUI, RectTransform fadeObject, float fadeDuration, Button playButton, Button creditsButton, Button nextButton)
+    public MenuState(GameObject menuUI, GameObject tutorialUI, RectTransform fadeObject, float fadeDuration, Button easyModeButton,
+        Button creditsButton, Button nextButton, Button hardModeButton, GameplayMode gameplayMode)
     {
         _menuUI = menuUI;
         _tutorialUI = tutorialUI;
         _fadeObject = fadeObject;
         _fadeDuration = fadeDuration;
-        _playButton = playButton;
+        _easyModeButton = easyModeButton;
+        _hardModeButton = hardModeButton;
         _creditsButton = creditsButton;
         _nextButton = nextButton;
+        _gameplayMode = gameplayMode;
 
-        _playButton.onClick.AddListener(HandleButtonPressed);
+        _easyModeButton.onClick.AddListener(HandleButtonPressed);
+        _hardModeButton.onClick.AddListener(HandleHardButtonPressed);
     }
 
     private void HandleButtonPressed()
     {
         Debug.Log("MenuState: Button Pressed");
         _buttonPressed = true;
+        _gameplayMode._easyMode = true;
+    }
+
+    private void HandleHardButtonPressed()
+    {
+        Debug.Log("MenuState: Button Pressed");
+        _buttonPressed = true;
+        _gameplayMode._easyMode = false;
     }
 
     public async UniTask<GameStateResult> DoAction(object data)
@@ -41,7 +55,8 @@ public class MenuState: IState
             await UniTask.Yield();
         }
 
-        _playButton.interactable = false;
+        _easyModeButton.interactable = false;
+        _hardModeButton.interactable = false;
         _creditsButton.interactable = false;
         _nextButton.interactable = false;
 
@@ -58,6 +73,8 @@ public class MenuState: IState
         await UniTask.Delay(TimeSpan.FromSeconds(_fadeDuration));
 
         _nextButton.interactable = true;
+
+        _buttonPressed = false;
 
         return new GameStateResult(GameConfiguration.TutorialState, data);
     }

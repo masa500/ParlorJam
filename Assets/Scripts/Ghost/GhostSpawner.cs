@@ -6,97 +6,29 @@ public class GhostSpawner : MonoBehaviour
     [SerializeField] private GhostFactory _ghostFactory;
     [SerializeField] private Vector2 _minSpawnArea;
     [SerializeField] private Vector2 _maxSpawnArea;
+    [SerializeField] private LevelGhostOrder _easyMode;
+    [SerializeField] private LevelGhostOrder _hardMode;
 
     private List<Ghost> ghosts = new List<Ghost>();
 
-    public void SpawnGhost(int round)
+    public void SpawnGhost(int round, bool easyMode)
     {
         ghosts.Clear();
 
-        switch (round)
+        if (easyMode)
         {
-            case 1:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NoMovement));
-                break;
-            case 2:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NoMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NoMovement));
-                break;
-            case 3:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Slow));
-                break;
-            case 4:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Slow));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Slow));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Slow));
-                break;
-            case 5:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Normal));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Normal));
-                break;
-            case 6:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                break;
-            case 7:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                break;
-            case 8:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Slow));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Normal));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Fast));
-                break;
-            case 9:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NoMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Fast));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Fast));
-                break;
-            case 10:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Fast));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Fast));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Fast));
-                break;
-            case 11:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NormalVector));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NormalVector));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));
-                break;
-            case 12:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.UFO));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.UFO));
-                break;
-            case 13:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NormalVector));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.UFO));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NoMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Normal));
-                break;
-            case 14:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));
-                break;
-            case 15:
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Normal));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Slow));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.Fast));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NoMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.GhostHide));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.ChangeHideMovement));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.UFO));
-                ghosts.Add(_ghostFactory.Create((int)GhostType.NormalVector));
-                break;
-            default:
-                break;
+            foreach (GhostType ghost in _easyMode.getGhostByRound(round))
+                ghosts.Add(_ghostFactory.Create((int)ghost));
+            
         }
-        
+
+        else
+        {
+            foreach (GhostType ghost in _hardMode.getGhostByRound(round))
+                ghosts.Add(_ghostFactory.Create((int)ghost));
+            
+        }
+
         foreach (var ghost in ghosts)
         {
             float randomX = Random.Range(_minSpawnArea.x, _maxSpawnArea.x);

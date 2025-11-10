@@ -18,11 +18,12 @@ public class GameplayState : IState
     private readonly AudioClip _clockSound;
     private readonly TextMeshProUGUI _textRound;
     private readonly TextMeshProUGUI _textTimer;
+    private readonly GameplayMode _gameplayMode;
     private int ghostsCaught = 0;
     private List<Ghost> _ghosts;
 
     public GameplayState(float gameplayDuration, GameObject ghostSpawner, Round round, GameObject seekCursor, InputReader controls,
-        GameObject soundPrefab, AudioClip initSound, TextMeshProUGUI textRound, TextMeshProUGUI textTimer, AudioClip clockSound)
+        GameObject soundPrefab, AudioClip initSound, TextMeshProUGUI textRound, TextMeshProUGUI textTimer, AudioClip clockSound, GameplayMode gameplayMode)
     {
         _gameplayDuration = gameplayDuration;
         _ghostSpawner = ghostSpawner;
@@ -34,6 +35,7 @@ public class GameplayState : IState
         _textRound = textRound;
         _textTimer = textTimer;
         _clockSound = clockSound;
+        _gameplayMode = gameplayMode;
     }
 
     public async UniTask<GameStateResult> DoAction(object data)
@@ -80,7 +82,12 @@ public class GameplayState : IState
             _ghosts.Add(_ghost);
         }
 
-        await UniTask.Delay(TimeSpan.FromSeconds(_gameplayDuration));
+        var gameplayDurationTemp = _gameplayDuration;
+
+        if (_gameplayMode._easyMode)
+            gameplayDurationTemp = _gameplayDuration + 1;
+
+        await UniTask.Delay(TimeSpan.FromSeconds(gameplayDurationTemp));
 
         foreach (Ghost ghost in _ghosts)
         {

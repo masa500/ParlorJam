@@ -41,6 +41,8 @@ public class TutorialState: IState
 
         _fadeObject.gameObject.SetActive(false);
 
+        _buttonPressed = false;
+
         return new GameStateResult(GameConfiguration.SpawnerState, data);
     }
 }

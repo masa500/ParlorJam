@@ -2,8 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Gameflow: MonoBehaviour
+public class Gameflow : MonoBehaviour
 {
+    private GameplayMode _gameplayMode;
+
     [Header("Scripts")]
     [SerializeField] private TutorialLogic tutorialLogic;
     [SerializeField] private GhostSpawner ghostSpawner;
@@ -23,9 +25,11 @@ public class Gameflow: MonoBehaviour
     [SerializeField] private GameObject tryAgainUI;
     [SerializeField] private GameObject victoryUI;
     [Header("Buttons")]
-    [SerializeField] private Button playButton;
+    [SerializeField] private Button playEasyButton;
+    [SerializeField] private Button playHardButton;
     [SerializeField] private Button creditsButton;
     [SerializeField] private Button tutorialButton;
+    [SerializeField] private Button winButton;
     [SerializeField] private Button tryButton;
     [Header("Timers")]
     [SerializeField] private float transitionFadeInDuration = 1f;
@@ -47,13 +51,15 @@ public class Gameflow: MonoBehaviour
 
     void Awake()
     {
+
+        _gameplayMode = new GameplayMode();
         _gameConfig = new GameConfiguration();
         _round = new Round();
         _round.current = 1;
 
         //Menu State
         _gameConfig.AddInitialState(GameConfiguration.MainMenuState,
-            new MenuState(mainMenuUI, tutorialUI, transitionFadeObject, transitionFadeOutDuration, playButton, creditsButton, tutorialButton));
+            new MenuState(mainMenuUI, tutorialUI, transitionFadeObject, transitionFadeOutDuration, playEasyButton, creditsButton, tutorialButton, playHardButton, _gameplayMode));
 
         //Tutorial State
         _gameConfig.AddState(GameConfiguration.TutorialState,
@@ -61,7 +67,7 @@ public class Gameflow: MonoBehaviour
 
         //Spawner State
         _gameConfig.AddState(GameConfiguration.SpawnerState,
-            new SpawnerState(transitionFadeOutDuration, transitionFadeObject, ghostSpawner, _round, tutorialUI, gameplayUI, lineMask, linesContainer));
+            new SpawnerState(transitionFadeOutDuration, transitionFadeObject, ghostSpawner, _round, tutorialUI, gameplayUI, lineMask, linesContainer, _gameplayMode, roundCounter));
 
         //Hide State
         _gameConfig.AddState(GameConfiguration.HideState,
@@ -69,7 +75,7 @@ public class Gameflow: MonoBehaviour
 
         //Gameplay
         _gameConfig.AddState(GameConfiguration.GameplayState,
-            new GameplayState(gameplayDuration, ghostSpawner.gameObject, _round, seekCursor, controls, soundPrefab, initSound, roundCounter, timerText, clockSound));
+            new GameplayState(gameplayDuration, ghostSpawner.gameObject, _round, seekCursor, controls, soundPrefab, initSound, roundCounter, timerText, clockSound, _gameplayMode));
 
         //Win State
         _gameConfig.AddState(GameConfiguration.WinState,
@@ -85,7 +91,7 @@ public class Gameflow: MonoBehaviour
 
         //Victory State
         _gameConfig.AddState(GameConfiguration.VictoryState,
-            new VictoryState(transitionFadeObject, victoryUI));
+            new VictoryState(victoryUI, transitionFadeObject, playEasyButton, playHardButton, creditsButton, winButton, mainMenuUI, transitionFadeOutDuration, _round, gameplayUI));
     }
 
     void Start()
