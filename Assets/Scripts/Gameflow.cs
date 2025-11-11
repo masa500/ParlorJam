@@ -1,3 +1,4 @@
+using NewgroundsUnityAPIHelper.Helper.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -91,7 +92,7 @@ public class Gameflow : MonoBehaviour
 
         //Victory State
         _gameConfig.AddState(GameConfiguration.VictoryState,
-            new VictoryState(victoryUI, transitionFadeObject, playEasyButton, playHardButton, creditsButton, winButton, mainMenuUI, transitionFadeOutDuration, _round, gameplayUI));
+            new VictoryState(victoryUI, transitionFadeObject, playEasyButton, playHardButton, creditsButton, winButton, mainMenuUI, transitionFadeOutDuration, _round, gameplayUI, _gameplayMode));
     }
 
     void Start()
@@ -104,6 +105,8 @@ public class Gameflow : MonoBehaviour
 
         transitionFadeObject.gameObject.SetActive(true);
         transitionFadeObject.sizeDelta = new Vector2(1200f, 800f);
+
+        NewgroundsAPIHelper.Instance.LoadMedals();
 
         StartState(_gameConfig.GetInitialState());
     }

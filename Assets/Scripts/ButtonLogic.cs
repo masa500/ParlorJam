@@ -1,3 +1,4 @@
+using NewgroundsUnityAPIHelper.Helper.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -25,5 +26,14 @@ public class ButtonLogic : MonoBehaviour, IPointerEnterHandler, IPointerClickHan
         soundPre.GetComponent<AudioSource>().clip = _hoverSound;
 
         soundPre.GetComponent<AudioSource>().Play();
+    }
+
+    public void getCreditMedal()
+    {
+        NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+        {
+            if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int) NGMedalsEnum.Developers))
+                NewgroundsAPIHelper.Instance.UnlockMedal((int) NGMedalsEnum.Developers);
+        });
     }
 }

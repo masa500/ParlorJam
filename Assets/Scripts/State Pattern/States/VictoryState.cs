@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NewgroundsUnityAPIHelper.Helper.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +17,12 @@ public class VictoryState : IState
     private readonly Round _round;
     private readonly float _fadeDuration;
     private readonly GameObject _gameplayUI;
+    private readonly GameplayMode _gameplayMode;
     private bool _buttonPressed = false;
 
 
     public VictoryState(GameObject victoryUI, RectTransform fadeObject, Button easyModeButton, Button hardModeButton, Button creditsButton, Button winButton,
-        GameObject menuUI, float fadeDuration, Round round, GameObject gameplayUI)
+        GameObject menuUI, float fadeDuration, Round round, GameObject gameplayUI, GameplayMode gameplayMode)
     {
         _victoryUI = victoryUI;
         _fadeObject = fadeObject;
@@ -32,6 +34,7 @@ public class VictoryState : IState
         _fadeDuration = fadeDuration;
         _round = round;
         _gameplayUI = gameplayUI;
+        _gameplayMode = gameplayMode;
 
         _winButton.onClick.AddListener(HandleButtonPressed);
     }
@@ -49,6 +52,23 @@ public class VictoryState : IState
         _fadeObject.gameObject.SetActive(true);
 
         _fadeObject.DOSizeDelta(new Vector2(1200f, 800f), _fadeDuration).SetEase(Ease.InOutSine);
+
+        if (_gameplayMode._easyMode)
+        {
+            NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+            {
+                if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.PrincessGhost))
+                    NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.PrincessGhost);
+            });
+        }
+        else
+        {
+            NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+            {
+                if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.FerdGhost))
+                    NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.FerdGhost);
+            });
+        }
 
         while (!_buttonPressed)
         {
