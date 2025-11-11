@@ -39,11 +39,17 @@ public class TryAgainState : IState
 
         _tryBtn.interactable = true;
 
-        NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+        try{
+            NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+            {
+                if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.Scaryyyyyyyy))
+                    NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.Scaryyyyyyyy);
+            });
+        }
+        catch (Exception e)
         {
-            if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int) NGMedalsEnum.Scaryyyyyyyy))
-                NewgroundsAPIHelper.Instance.UnlockMedal((int) NGMedalsEnum.Scaryyyyyyyy);
-        });
+            Debug.Log("Error with the NG Api "+e);
+        }
 
         while (!_buttonPressed)
         {

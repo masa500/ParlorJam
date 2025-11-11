@@ -53,21 +53,28 @@ public class VictoryState : IState
 
         _fadeObject.DOSizeDelta(new Vector2(1200f, 800f), _fadeDuration).SetEase(Ease.InOutSine);
 
-        if (_gameplayMode._easyMode)
-        {
-            NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+        try{
+
+            if (_gameplayMode._easyMode)
             {
-                if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.PrincessGhost))
-                    NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.PrincessGhost);
-            });
+                NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                {
+                    if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.PrincessGhost))
+                        NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.PrincessGhost);
+                });
+            }
+            else
+            {
+                NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                {
+                    if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.FerdGhost))
+                        NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.FerdGhost);
+                });
+            }
         }
-        else
+        catch (Exception e)
         {
-            NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
-            {
-                if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.FerdGhost))
-                    NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.FerdGhost);
-            });
+            Debug.Log("Error with the NG Api "+e);
         }
 
         while (!_buttonPressed)

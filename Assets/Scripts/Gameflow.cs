@@ -1,3 +1,4 @@
+using System;
 using NewgroundsUnityAPIHelper.Helper.Scripts;
 using TMPro;
 using UnityEngine;
@@ -106,8 +107,14 @@ public class Gameflow : MonoBehaviour
         transitionFadeObject.gameObject.SetActive(true);
         transitionFadeObject.sizeDelta = new Vector2(1200f, 800f);
 
-        NewgroundsAPIHelper.Instance.LoadMedals();
-
+        try
+        {
+            NewgroundsAPIHelper.Instance.LoadMedals();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error with the NG Api "+e);
+        }
         StartState(_gameConfig.GetInitialState());
     }
 

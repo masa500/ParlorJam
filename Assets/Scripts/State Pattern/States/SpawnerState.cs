@@ -39,24 +39,30 @@ public class SpawnerState : IState
         if (_round.current > 15)
             return new GameStateResult(GameConfiguration.VictoryState, data);
 
-        if (_round.current >= 8)
+        try{
+            if (_round.current >= 8)
+            {
+                if (_gameplayMode._easyMode)
+                {
+                    NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                    {
+                        if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.Ghost))
+                            NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.Ghost);
+                    });
+                }
+                else
+                {
+                    NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                    {
+                        if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.BahiaGhost))
+                            NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.BahiaGhost);
+                    });
+                }
+            }
+        }
+        catch (Exception e)
         {
-            if (_gameplayMode._easyMode)
-            {
-                NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
-                {
-                    if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.Ghost))
-                        NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.Ghost);
-                });
-            }
-            else
-            {
-                NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
-                {
-                    if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int) NGMedalsEnum.BahiaGhost))
-                        NewgroundsAPIHelper.Instance.UnlockMedal((int) NGMedalsEnum.BahiaGhost);
-                });
-            }
+            Debug.Log("Error with the NG Api "+e);
         }
 
         List<GameObject> childrenToDestroy = new List<GameObject>();
