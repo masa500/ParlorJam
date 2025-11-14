@@ -64,6 +64,8 @@ public class SpawnerState : IState
             GameObject.Destroy(child);
         }
 
+        _ = Resources.UnloadUnusedAssets();
+
         _ghostSpawner.SpawnGhost(_round.current, _gameplayMode._easyMode);
 
         _tutorialUI.SetActive(false);

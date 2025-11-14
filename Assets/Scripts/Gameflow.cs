@@ -105,7 +105,6 @@ public class Gameflow : MonoBehaviour
 
         transitionFadeObject.gameObject.SetActive(true);
         transitionFadeObject.sizeDelta = new Vector2(1200f, 800f);
-
         StartState(_gameConfig.GetInitialState());
     }
 

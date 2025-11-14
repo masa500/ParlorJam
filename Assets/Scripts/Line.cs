@@ -25,7 +25,7 @@ public class Line : MonoBehaviour
             return;
         }
         
-        else if(Vector2.Distance(_points.Last(), point) > 0.2f){
+        else if(Vector2.Distance(_points.Last(), point) > 1f){
             SetPoints(point);
         }
     }
