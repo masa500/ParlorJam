@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NewgroundsUnityAPIHelper.Helper.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +38,19 @@ public class TryAgainState : IState
         _tryAgainUI.SetActive(true);
 
         _tryBtn.interactable = true;
+
+        try
+        {
+            NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+            {
+                if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.Scaryyyyyyyy))
+                    NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.Scaryyyyyyyy);
+            });
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error with the NG Api " + e);
+        }
 
         while (!_buttonPressed)
         {

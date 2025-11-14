@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NewgroundsUnityAPIHelper.Helper.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,6 +52,31 @@ public class VictoryState : IState
         _fadeObject.gameObject.SetActive(true);
 
         _fadeObject.DOSizeDelta(new Vector2(1200f, 800f), _fadeDuration).SetEase(Ease.InOutSine);
+
+        try
+        {
+
+            if (_gameplayMode._easyMode)
+            {
+                NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                {
+                    if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.PrincessGhost))
+                        NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.PrincessGhost);
+                });
+            }
+            else
+            {
+                NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                {
+                    if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.FerdGhost))
+                        NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.FerdGhost);
+                });
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error with the NG Api " + e);
+        }
 
         while (!_buttonPressed)
         {

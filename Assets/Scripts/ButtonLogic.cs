@@ -1,3 +1,4 @@
+using NewgroundsUnityAPIHelper.Helper.Scripts;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,11 +33,15 @@ public class ButtonLogic : MonoBehaviour, IPointerEnterHandler, IPointerClickHan
     {
         try
         {
-           
+            NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+            {
+                if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.Developers))
+                    NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.Developers);
+            });
         }
         catch (Exception e)
         {
-            Debug.Log("Error with the NG Api "+e);
+            Debug.Log("Error with the NG Api " + e);
         }
     }
 }

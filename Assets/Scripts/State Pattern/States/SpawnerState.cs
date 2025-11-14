@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using NewgroundsUnityAPIHelper.Helper.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -37,6 +38,33 @@ public class SpawnerState : IState
 
         if (_round.current > 15)
             return new GameStateResult(GameConfiguration.VictoryState, data);
+
+        try
+        {
+            if (_round.current >= 8)
+            {
+                if (_gameplayMode._easyMode)
+                {
+                    NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                    {
+                        if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.Ghost))
+                            NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.Ghost);
+                    });
+                }
+                else
+                {
+                    NewgroundsAPIHelper.Instance.IsUserLoggedIn(isLoggedIn =>
+                    {
+                        if (!NewgroundsAPIHelper.Instance.IsMedalUnlocked((int)NGMedalsEnum.BahiaGhost))
+                            NewgroundsAPIHelper.Instance.UnlockMedal((int)NGMedalsEnum.BahiaGhost);
+                    });
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error with the NG Api " + e);
+        }
 
         List<GameObject> childrenToDestroy = new List<GameObject>();
 
