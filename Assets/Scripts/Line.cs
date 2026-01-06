@@ -19,14 +19,18 @@ public class Line : MonoBehaviour
 
     public void updateLine(Vector2 point){
 
+        Vector2 refinedPoint = new Vector2((Mathf.Round(point.x * 10f)) / 10f, (Mathf.Round(point.y * 10f)) / 10f);
+
         if(_points == null || _points.Count == 0){
             _points = new List<Vector2>();
-            SetPoints(point); 
+            SetPoints(refinedPoint); 
             return;
         }
-        
-        else if(Vector2.Distance(_points.Last(), point) > 1f){
-            SetPoints(point);
+
+        else if(Vector2.Distance(_points.Last(), refinedPoint) > 0.2f){
+
+            if(!_points.Contains(refinedPoint))
+                SetPoints(refinedPoint);
         }
     }
 }
